@@ -1,0 +1,56 @@
+/*
+ * NokGridCore black theme: the neutral brand from the
+ * "NokGridCore Black theme" Figma file (Theme - semantic tokens, light 24:0 / dark 24:1).
+ * Only tokens that differ from @nokgridcore/tokens are listed. Import after
+ * @nokgridcore/ui/styles.css.
+ */
+
+:root {
+	--nok-color-background-brand: #141414;
+	--nok-color-background-brand-subtle: #ededed;
+	--nok-color-background-brand-secondary: #ededed;
+	--nok-color-background-brand-secondary-subtle: #f6f6f6;
+	--nok-color-text-brand: #141414;
+	--nok-color-border-focus: #9e9e9e;
+	--nok-color-action-primary-default: #141414;
+	--nok-color-action-primary-hover: #262626;
+	--nok-color-action-primary-pressed: #3f3f3f;
+	--nok-color-action-primary-disabled: #d9d9d9;
+	--nok-color-action-primary-text: #f6f6f6;
+	--nok-color-action-secondary-default: #ededed;
+	--nok-color-action-secondary-hover: #d9d9d9;
+	--nok-color-action-secondary-pressed: #bfbfbf;
+	--nok-color-action-secondary-text: #141414;
+	--nok-color-action-secondary-disabled: #f6f6f6;
+	--nok-color-action-secondary-disabled-text: #9e9e9e;
+	--nok-color-icon-secondary: #5c5c5c;
+	--nok-color-icon-brand: #141414;
+	--nok-color-chart-1: #141414;
+	--nok-color-chart-2: #7a7a7a;
+	--nok-color-chart-3: #bfbfbf;
+}
+
+[data-theme='dark'] {
+	--nok-color-background-brand: #d9d9d9;
+	--nok-color-background-brand-subtle: #262626;
+	--nok-color-background-brand-secondary: #262626;
+	--nok-color-background-brand-secondary-subtle: #141414;
+	--nok-color-text-brand: #f6f6f6;
+	--nok-color-border-focus: #7a7a7a;
+	--nok-color-action-primary-default: #f6f6f6;
+	--nok-color-action-primary-hover: #d9d9d9;
+	--nok-color-action-primary-pressed: #bfbfbf;
+	--nok-color-action-primary-disabled: #262626;
+	--nok-color-action-primary-text: #141414;
+	--nok-color-action-secondary-default: #262626;
+	--nok-color-action-secondary-hover: #3f3f3f;
+	--nok-color-action-secondary-pressed: #5c5c5c;
+	--nok-color-action-secondary-text: #f6f6f6;
+	--nok-color-action-secondary-disabled: #141414;
+	--nok-color-action-secondary-disabled-text: #5c5c5c;
+	--nok-color-icon-secondary: #9e9e9e;
+	--nok-color-icon-brand: #f6f6f6;
+	--nok-color-chart-1: #f6f6f6;
+	--nok-color-chart-2: #9e9e9e;
+	--nok-color-chart-3: #5c5c5c;
+}
