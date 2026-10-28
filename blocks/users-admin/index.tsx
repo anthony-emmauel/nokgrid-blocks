@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent } from 'react';
 import { nokTailwindTheme } from '@nokgridcore/tokens/tailwind-theme';
 import { Avatar } from '@nokgridcore/ui/avatar';
 import { BadgeCount } from '@nokgridcore/ui/badge-count';
@@ -86,12 +86,22 @@ function activateOnEnter(event: KeyboardEvent<HTMLElement>) {
 	if (event.key === 'Enter') event.currentTarget.click();
 }
 
-function NavMenuItem({ item, collapsed = false }: { item: NavItem; collapsed?: boolean }) {
+// Content on brand and primary fills: the components draw it white, the black theme
+// uses action/primary-text (light text on black, dark text on near-white).
+const onBrand = '[--nok-color-icon-white:var(--nok-color-action-primary-text)]';
+
+/**
+ * A nav row. Returned as a MenuItem element (not wrapped in a component) so
+ * SidebarGroup can hide its label and chevron when the sidebar collapses.
+ */
+function navMenuItem(item: NavItem, collapsed = false) {
 	return (
 		<MenuItem
+			key={item.label}
 			role='link'
 			aria-current={item.current ? 'page' : undefined}
-			aria-label={collapsed ? item.label : undefined}
+			aria-label={item.label}
+			title={collapsed ? item.label : undefined}
 			state={item.current ? 'active' : 'default'}
 			showLeadingIcon
 			icon={item.icon}
@@ -114,6 +124,7 @@ export default function UsersAdmin() {
 		state: 'ascending',
 	});
 	const [usersNavCollapsed, setUsersNavCollapsed] = useState(false);
+	const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
 	const rows = useMemo(() => {
 		const q = query.trim().toLowerCase();
@@ -214,6 +225,7 @@ export default function UsersAdmin() {
 					size='sm'
 					label='Select all users'
 					hideLabel
+					className={onBrand}
 					checked={allSelected}
 					indeterminate={someSelected}
 					onChange={toggleAll}
@@ -251,6 +263,7 @@ export default function UsersAdmin() {
 	return (
 		<div className='flex h-screen flex-col bg-background-surface'>
 			<TopBar
+				className={onBrand}
 				showSidebarToggle={false}
 				logo='Grid3X3'
 				productName={organisation.product}
@@ -266,6 +279,7 @@ export default function UsersAdmin() {
 				}
 				actions={
 					<div className='flex items-center gap-component-sm'>
+						<ThemeToggle />
 						<Button
 							variant='tertiary'
 							size='sm'
@@ -287,7 +301,7 @@ export default function UsersAdmin() {
 								variant='primary'
 								count={organisation.notifications}
 								aria-hidden='true'
-								className='pointer-events-none absolute right-0 top-0'
+								className='pointer-events-none absolute right-0 top-0 text-action-primary-text'
 							/>
 						</span>
 						<Button
@@ -307,18 +321,17 @@ export default function UsersAdmin() {
 					role='navigation'
 					aria-label={organisation.product}
 					showBorder={false}
+					collapsed={sidebarCollapsed}
+					onCollapsedChange={setSidebarCollapsed}
+					className={`shrink-0 ${onBrand}`}
 					style={{ height: '100%', borderRight: '1px solid var(--nok-color-border-default)' }}>
 					<SidebarHeader logo='Grid3X3' title={organisation.product} subtext={organisation.tenant} />
 					<SidebarContent style={{ gap: 'var(--nok-spacing-component-md)' }}>
 						<SidebarGroup showDivider>
-							{primaryNav.map((item) => (
-								<NavMenuItem key={item.label} item={item} />
-							))}
+							{primaryNav.map((item) => navMenuItem(item, sidebarCollapsed))}
 						</SidebarGroup>
 						<SidebarGroup label='Identity'>
-							{identityNav.map((item) => (
-								<NavMenuItem key={item.label} item={item} />
-							))}
+							{identityNav.map((item) => navMenuItem(item, sidebarCollapsed))}
 						</SidebarGroup>
 					</SidebarContent>
 					<SidebarFooter
@@ -371,9 +384,7 @@ export default function UsersAdmin() {
 									onClick={() => setUsersNavCollapsed((collapsed) => !collapsed)}
 								/>
 							</div>
-							{usersNav.map((item) => (
-								<NavMenuItem key={item.label} item={item} collapsed={usersNavCollapsed} />
-							))}
+							{usersNav.map((item) => navMenuItem(item, usersNavCollapsed))}
 						</nav>
 
 						<section aria-label='All users' className='flex min-w-0 flex-1 flex-col gap-component-md'>
@@ -426,6 +437,7 @@ export default function UsersAdmin() {
 															size='sm'
 															label={`Select ${user.displayName}`}
 															hideLabel
+															className={onBrand}
 															checked={checked}
 															onChange={() => toggleRow(user.id)}
 														/>
@@ -468,6 +480,44 @@ export default function UsersAdmin() {
 				</main>
 			</div>
 		</div>
+	);
+}
+
+const readTheme = () => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+
+function subscribeToTheme(onChange: () => void) {
+	const observer = new MutationObserver(onChange);
+	observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+	return () => observer.disconnect();
+}
+
+/**
+ * Switches the token mode on the page (data-theme on <html>) and remembers the
+ * choice. Starts from whatever mode the page loaded in.
+ */
+function ThemeToggle() {
+	const theme = useSyncExternalStore(subscribeToTheme, readTheme, () => 'light');
+
+	function toggle() {
+		const next = theme === 'dark' ? 'light' : 'dark';
+		document.documentElement.dataset.theme = next;
+		try {
+			localStorage.setItem('theme', next);
+		} catch {
+			// Storage can be blocked; the switch still applies to this visit.
+		}
+	}
+
+	return (
+		<Button
+			variant='tertiary'
+			size='sm'
+			icon={theme === 'dark' ? 'Sun' : 'Moon'}
+			iconPosition='only'
+			aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+			className='border-transparent bg-transparent'
+			onClick={toggle}
+		/>
 	);
 }
 
@@ -534,6 +584,7 @@ function FilterMenu({
 				variant='primary'
 				size='sm'
 				icon='Filter'
+				className='text-action-primary-text'
 				aria-haspopup='listbox'
 				aria-expanded={open}
 				aria-controls={open ? 'users-admin-filter' : undefined}
