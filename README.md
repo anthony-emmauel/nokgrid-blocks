@@ -10,7 +10,7 @@ Ready-made dashboard blocks built with [NokGridCore](https://www.nokgrid.com/): 
 
 | # | Block | Figma | Status |
 |---|---|---|---|
-| 01 | Users admin | | In progress |
+| 01 | [Users admin](https://nokgrid-blocks.netlify.app/blocks/users-admin) | [Frame](https://www.figma.com/design/UY2Mue2lSBmcaGdvjC6CRa/NokGridCore---Blocks-internal?node-id=2-1969) | In review |
 
 New blocks are added regularly.
 
