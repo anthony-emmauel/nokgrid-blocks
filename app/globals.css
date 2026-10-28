@@ -6,8 +6,3 @@ body {
 	color: var(--nok-color-text-primary);
 	font-family: var(--nok-typography-font-family-body);
 }
-
-/* Code tabs: the panel draws its own background from the code tokens. */
-.shiki {
-	background-color: transparent !important;
-}

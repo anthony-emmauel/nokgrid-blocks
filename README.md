@@ -2,7 +2,7 @@
 
 Ready-made dashboard blocks built with [NokGridCore](https://www.nokgrid.com/): full sections like admin tables, KPI rows and chart panels, composed only from `@nokgridcore/ui` components and tokens, in light and dark.
 
-- **Live previews and code:** [nokgrid-blocks.netlify.app](https://nokgrid-blocks.netlify.app)
+- **Live demo:** [nokgrid-blocks.netlify.app](https://nokgrid-blocks.netlify.app)
 - **Figma (free):** NokGridCore - Blocks on Figma Community
 - **Design system:** [nokgrid.com](https://www.nokgrid.com/) · [github.com/nokgridcore/nokgrid](https://github.com/nokgridcore/nokgrid)
 

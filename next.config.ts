@@ -1,8 +1,8 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-	// Block sources are read from disk at build time for the code tabs.
-	outputFileTracingIncludes: { '/blocks/[slug]': ['./blocks/**/*'] },
+	// Blocks fill the whole screen; the dev badge would sit over the sidebar footer.
+	devIndicators: false,
 };
 
 export default nextConfig;

@@ -10,9 +10,8 @@ export const metadata: Metadata = {
 };
 
 // Runs before paint so nobody sees a flash of the wrong mode.
-// Site pages follow the system theme. Block previews start in the mode from
-// ?theme= (light by default), so direct links and screenshots are predictable.
-const themeScript = `try{var d=document.documentElement,p=location.pathname.indexOf('/preview/')===0,q=new URLSearchParams(location.search).get('theme');d.dataset.theme=(p?q==='dark':matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'}catch(e){}`;
+// Follows the system theme; ?theme=light or ?theme=dark overrides it.
+const themeScript = `try{var d=document.documentElement,q=new URLSearchParams(location.search).get('theme');d.dataset.theme=q==='dark'||q==='light'?q:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}catch(e){}`;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
