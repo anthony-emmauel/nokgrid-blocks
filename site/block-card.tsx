@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { Badge } from '@nokgridcore/ui/badge';
 import { Card } from '@nokgridcore/ui/card';
 import type { BlockEntry } from '@/blocks/registry';
@@ -34,7 +34,6 @@ export function BlockCard({
 	priority: boolean;
 	onOpen: () => void;
 }) {
-	const [hovered, setHovered] = useState(false);
 	const cardRef = useRef<HTMLDivElement>(null);
 	const live = block.status === 'live';
 	const title = `${block.number} · ${block.name}`;
@@ -57,7 +56,7 @@ export function BlockCard({
 			style={{ width: '100%', height: '100%' }}
 			media={
 				<div className='relative w-full'>
-					<CardMedia thumbnail={block.thumbnail} coverVideo={block.coverVideo} hovered={hovered} priority={priority} />
+					<CardMedia thumbnail={block.thumbnail} priority={priority} />
 					{isNew && <Badge label='New' size='medium' className='absolute left-component-lg top-component-lg' />}
 				</div>
 			}
@@ -84,11 +83,7 @@ export function BlockCard({
 			data-block-card={block.slug}
 			aria-label={`${title}. ${block.description} Open the live preview.`}
 			className='group block h-full rounded-lg no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nok-color-border-focus)]'
-			onClick={onOpen}
-			onPointerEnter={() => setHovered(true)}
-			onPointerLeave={() => setHovered(false)}
-			onFocus={() => setHovered(true)}
-			onBlur={() => setHovered(false)}>
+			onClick={onOpen}>
 			{card}
 		</Link>
 	);

@@ -27,7 +27,7 @@ New blocks are added regularly.
 1. Add its folder in `blocks/<slug>/`: `index.tsx`, `data.ts` and `README.md`.
 2. Add a registry entry in `blocks/registry.ts` (status `in-design` until it ships).
 3. When it ships, set `status: 'live'` and add its loader in `blocks/loaders.ts`.
-4. Put its 16:10 thumbnail in `public/blocks/<slug>/thumbnail.png`, plus `.avif`/`.webp`, and an optional `cover.webm`/`.mp4`.
+4. Put its 16:10 thumbnail in `public/blocks/<slug>/thumbnail.png`, plus `.avif`/`.webp`. Cards are static: no video.
 
 ## Using a block
 

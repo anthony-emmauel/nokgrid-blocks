@@ -28,8 +28,6 @@ export interface BlockEntry {
 	date: string;
 	/** 16:10 card thumbnail, path without extension (.avif, .webp and .png exist). */
 	thumbnail: string;
-	/** Optional looping cover, path without extension (.webm and .mp4 exist). */
-	coverVideo?: string;
 	/** Figma frame: internal link until the block is public on Figma Community. */
 	figma: string;
 	/** NokGridCore components the block is composed from, as named in Figma. */
@@ -57,7 +55,6 @@ export const blocks: BlockEntry[] = [
 		status: 'live',
 		date: '2026-10-28',
 		thumbnail: '/blocks/users-admin/thumbnail',
-		coverVideo: '/blocks/users-admin/cover',
 		figma: figmaFrame('36-7279'),
 		components: [
 			'top-bar',
