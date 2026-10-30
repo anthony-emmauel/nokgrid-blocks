@@ -1,0 +1,33 @@
+/*
+ * Landing page text styles, built only from NokGridCore typography tokens.
+ * Font weights are numbers here: the display/heading weight tokens are the
+ * keywords "bold"/"semibold", and CSS doesn't accept "semibold".
+ */
+
+.t-display-hero {
+	font-family: var(--nok-typography-display-xl-font-family);
+	font-size: var(--nok-typography-display-xl-font-size);
+	line-height: var(--nok-typography-display-xl-line-height);
+	font-weight: 700;
+}
+@media (min-width: 1024px) {
+	.t-display-hero {
+		font-family: var(--nok-typography-display-2xl-font-family);
+		font-size: var(--nok-typography-display-2xl-font-size);
+		line-height: var(--nok-typography-display-2xl-line-height);
+	}
+}
+
+.t-display-lg {
+	font-family: var(--nok-typography-display-lg-font-family);
+	font-size: var(--nok-typography-display-lg-font-size);
+	line-height: var(--nok-typography-display-lg-line-height);
+	font-weight: 600;
+}
+
+/* Courier Prime isn't a token font; Figma uses it for the meta line only. */
+.t-meta {
+	font-family: 'Courier Prime', var(--nok-typography-font-family-mono), monospace;
+	font-size: var(--nok-typography-font-size-13);
+	line-height: normal;
+}

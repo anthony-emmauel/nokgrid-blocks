@@ -10,3 +10,12 @@
 [build.environment]
   NODE_VERSION = "22"
   NEXT_TELEMETRY_DISABLED = "1"
+
+# blocks.nokgrid.com is the primary domain. Send the old Netlify address there.
+# Deploy previews (deploy-preview-N--nokgrid-blocks.netlify.app) use other
+# hostnames, so they aren't affected.
+[[redirects]]
+  from = "https://nokgrid-blocks.netlify.app/*"
+  to = "https://blocks.nokgrid.com/:splat"
+  status = 301
+  force = true
