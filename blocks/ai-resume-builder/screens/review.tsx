@@ -12,12 +12,11 @@ import { ResumeSheet } from '../resume-sheet';
 import { text } from '../text';
 
 // Issue tiles use the status token pairs from Figma (plate background/<kind>, icon icon/<kind>).
-// Warning is the exception: icon/warning on background/warning is 1.7:1 in light mode, and no
-// warning icon token reaches 3:1 on a pale plate. It takes the strong plate with icon/inverse
-// instead (11.8:1 light, 5.3:1 dark), the same pairing as Badge's filled warning.
+// Warning keeps the soft plate but takes text/warning for its icon: icon/warning on background/warning
+// is 1.7:1 in light mode, text/warning is 2.8:1 (8.8:1 dark). No warning token reaches 3:1 on it.
 const issueTile: Record<IssueKind, { plate: string; icon: string }> = {
 	error: { plate: 'background-error', icon: 'icon-error' },
-	warning: { plate: 'background-warning-strong', icon: 'icon-inverse' },
+	warning: { plate: 'background-warning', icon: 'text-warning' },
 	info: { plate: 'background-info', icon: 'icon-info' },
 	success: { plate: 'background-success', icon: 'icon-success' },
 };
