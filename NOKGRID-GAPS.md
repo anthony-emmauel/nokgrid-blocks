@@ -29,6 +29,7 @@ Used by the block preview (`site/preview-modal.tsx`).
 ### Button
 - **Can't be a link** (no `href`/`asChild`). Link buttons (`site/link-button.tsx`) are `Button`s with `role="link"` that open the URL in a new tab.
 - **`md` labels are 16px** (`text-base`); Figma's medium button uses 14px (label/lg). Most visible on the landing hero, follow band and preview footer. The mobile preview footer uses `sm` so all three buttons fit on one row.
+- **Icon-only `md` and `lg` squeeze their icon.** The square is `control-md`/`control-lg` with `component-md`/`component-lg` padding all round, leaving 12px for a 20px or 24px icon, so the glyph renders about 10px wide. `sm` and `xs` fit. The landing theme toggle uses `lg` with `!p-0` (`site/theme-toggle.tsx`).
 - **Primary text is `text-white`** (Tailwind's literal white), not `colour/action/primary-text`. Wrong on the black theme, where primary is near-white in dark mode. Blocks pass `text-action-primary-text`.
 
 ### Content drawn white on brand/primary fills
