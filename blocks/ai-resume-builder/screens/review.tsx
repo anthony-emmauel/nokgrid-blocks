@@ -2,17 +2,26 @@ import { useState } from 'react';
 import { Button } from '@nokgridcore/ui/button';
 import { Card } from '@nokgridcore/ui/card';
 import type { IconName } from '@nokgridcore/ui/icon';
-import { Progress } from '@nokgridcore/ui/progress';
 import { Tab } from '@nokgridcore/ui/tab';
 import { TabGroup } from '@nokgridcore/ui/tab-group';
 import { IconTile } from '../../_shared/icon-tile';
 import { issues, review, reviewSheet, type IssueGroup, type IssueKind } from '../data';
 import type { Nav } from '../index';
-import { fill, PageTitle, Panel, primaryText } from '../parts';
+import { fill, PageTitle, Panel, primaryText, ScoreRing } from '../parts';
 import { ResumeSheet } from '../resume-sheet';
 import { text } from '../text';
 
 // Issue tiles use the status token pairs from Figma (plate background/<kind>, icon icon/<kind>).
+// Warning is the exception: icon/warning on background/warning is 1.7:1 in light mode, and no
+// warning icon token reaches 3:1 on a pale plate. It takes the strong plate with icon/inverse
+// instead (11.8:1 light, 5.3:1 dark), the same pairing as Badge's filled warning.
+const issueTile: Record<IssueKind, { plate: string; icon: string }> = {
+	error: { plate: 'background-error', icon: 'icon-error' },
+	warning: { plate: 'background-warning-strong', icon: 'icon-inverse' },
+	info: { plate: 'background-info', icon: 'icon-info' },
+	success: { plate: 'background-success', icon: 'icon-success' },
+};
+
 const issueIcon: Record<IssueKind, IconName> = {
 	error: 'CircleX',
 	warning: 'CircleAlert',
@@ -50,12 +59,9 @@ export function Review({ nav }: { nav: Nav }) {
 				<div className='flex min-w-0 flex-1 flex-col gap-component-lg'>
 					<Panel className='flex items-center gap-5 p-layout-lg' aria-label='Resume score'>
 						{/* A score out of 100, not a percentage: Progress's own label is hidden and the number sits in the ring. */}
-						<div className='relative flex shrink-0 items-center justify-center'>
-							<Progress type='circular' size='md' value={review.score} color='success' aria-label={`Resume score ${review.score} out of 100`} />
-							<span aria-hidden='true' className='absolute text-text-primary' style={text['label-md']}>
-								{review.score}
-							</span>
-						</div>
+						<ScoreRing size='md' value={review.score} label={`Resume score ${review.score} out of 100`}>
+							{review.score}
+						</ScoreRing>
 						<div className='flex min-w-0 flex-1 flex-col gap-component-xs'>
 							<p className='m-0 text-text-primary' style={text['heading-sm']}>
 								{review.verdict}
@@ -95,7 +101,7 @@ export function Review({ nav }: { nav: Nav }) {
 									<Card
 										orientation='horizontal'
 										style={fill}
-										media={<IconTile icon={issueIcon[issue.kind]} plate={`background-${issue.kind}`} iconColor={`icon-${issue.kind}`} />}
+										media={<IconTile icon={issueIcon[issue.kind]} plate={issueTile[issue.kind].plate} iconColor={issueTile[issue.kind].icon} />}
 										title={issue.title}
 										description={issue.detail}
 										showActions={issue.fixable}

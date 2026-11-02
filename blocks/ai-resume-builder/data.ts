@@ -271,7 +271,8 @@ export const issues: { title: string; detail: string; kind: IssueKind; group: Is
 
 // Settings
 
-export const settingsTabs = ['Account', 'Notifications', 'Billing'];
+// Figma also shows Notifications and Billing; they're hidden until those screens are designed.
+export const settingsTabs = ['Account'];
 export const languages = ['English (US)', 'English (UK)', 'Français', 'Español', 'Português'];
 export const currencies = ['$ USD', '€ EUR', '£ GBP'];
 

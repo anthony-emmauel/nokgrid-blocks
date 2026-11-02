@@ -65,10 +65,10 @@ Figma's icon tile (a rounded plate with a centred icon) has no NokGridCore compo
 
 ### Progress
 - **The circular label can't drop "%".** The review score is out of 100, not a percentage, so Blocks 02 hides Progress's label and centres "72" over the ring.
-- **No visible track** on the circular ring in the black theme; Figma shows a grey track. Left as is.
+- **Circular has no track,** draws a 4/8px stroke, and colours the arc `background/success-strong`. Figma's score ring is a `border/default` track under a `border/success` arc, both 6.5px. `ScoreRing` (`blocks/ai-resume-builder/parts.tsx`) draws the track behind Progress and restyles the arc with `[&_circle]` overrides. Progress should take a track and a stroke width.
 
 ### MenuItem (Blocks 02)
-- **Badge is filled and fully rounded;** Figma's "Pro" badge is tinted with a small radius. Left as the component draws it.
+- **Badge is always filled and fully rounded,** with no appearance prop. Figma's "Pro" badge is the tinted info badge. Blocks 02 repaints it with Badge's own tinted-info tokens through `[&>.rounded-full]` overrides (`tintedInfoBadge` in `parts.tsx`). It can't be swapped for a real `Badge`, because SidebarGroup clones its MenuItem children and won't take a wrapper. MenuItem should take `badgeAppearance`.
 - **Enter handlers must `preventDefault()`** when they open a dialog, or the same keypress activates the dialog's newly focused close button. Handled in `activateOnEnter`.
 
 ### SidebarFooter
@@ -82,6 +82,7 @@ Figma's icon tile (a rounded plate with a centred icon) has no NokGridCore compo
 The Upgrade modal's plan rows (radio, label, badge, price in a bordered card that thickens when selected) have no component. Composed in the block from `Radio` and `Badge`.
 
 ## Tokens
+- **Warning tiles fail contrast in light mode.** `icon/warning` on `background/warning` is 1.7:1, and no warning icon or text token reaches 3:1 on a pale plate (`text/warning` gets 2.8:1). Blocks 02's Review tiles use `background/warning-strong` with `icon/inverse` (11.8:1 light, 5.3:1 dark), which is Badge's filled-warning pairing. Error (4.4:1), info (4.8:1) and success (3.0:1) keep Figma's pairs. A darker light-mode `icon/warning` would let warning match the others.
 - **`colour/text/inverse` aliases `colour/background/inverse`,** so text in that token is invisible on an inverse fill. The selected filter chip uses `colour/background/canvas` for its label instead.
 - **Display/heading font weights are keywords** (`bold`, `semibold`). CSS has no `semibold`, so styles using the weight token fall back to normal weight. The site uses numeric weights (`site/site.css`, `pageTitle` in Blocks 01).
 - **`@nokgridcore/tokens/tailwind-theme` has no type declarations.** See `types/nokgridcore-tokens.d.ts`.

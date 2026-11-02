@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Avatar } from '@nokgridcore/ui/avatar';
 import { Button } from '@nokgridcore/ui/button';
+import { Progress } from '@nokgridcore/ui/progress';
 import { user } from './data';
 import type { Nav } from './index';
 import { text } from './text';
@@ -11,6 +12,64 @@ export const fill = { width: '100%' };
 export const selectedCard = '!border-[var(--nok-color-text-primary)]';
 // Primary buttons on the black theme take action/primary-text, not white (NOKGRID-GAPS.md).
 export const primaryText = 'text-action-primary-text';
+// MenuItem always draws a filled, fully rounded badge and takes no appearance. Figma's "Pro" is the
+// tinted info badge, so this repaints it with Badge's own tinted-info tokens (NOKGRID-GAPS.md).
+export const tintedInfoBadge = [
+	'[&>.rounded-full]:!rounded-sm',
+	'[&>.rounded-full]:border [&>.rounded-full]:border-solid [&>.rounded-full]:!border-border-info',
+	'[&>.rounded-full]:!bg-background-info [&>.rounded-full]:!text-text-info',
+].join(' ');
+
+// Progress draws only the arc (no track), with a 4/8px stroke and background/success-strong.
+// Figma's score ring is a border/default track under a border/success arc, both 6.5px.
+// The radius matches Progress's own: (diameter − its stroke) / 2 (NOKGRID-GAPS.md).
+const RING = { sm: { diameter: 56, radius: 26 }, md: { diameter: 72, radius: 32 } } as const;
+const RING_STROKE = 6.5;
+
+/** A circular score: NokGridCore Progress on a grey track. `children` sits in the centre. */
+export function ScoreRing({
+	value,
+	size,
+	showPercentage = false,
+	label,
+	children,
+}: {
+	value: number;
+	size: keyof typeof RING;
+	showPercentage?: boolean;
+	label: string;
+	children?: ReactNode;
+}) {
+	const { diameter, radius } = RING[size];
+	return (
+		<div className='relative inline-flex shrink-0 items-center justify-center'>
+			<svg aria-hidden='true' className='absolute inset-0 overflow-visible' width={diameter} height={diameter}>
+				<circle
+					cx={diameter / 2}
+					cy={diameter / 2}
+					r={radius}
+					fill='none'
+					stroke='var(--nok-color-border-default)'
+					strokeWidth={RING_STROKE}
+				/>
+			</svg>
+			<Progress
+				type='circular'
+				size={size}
+				value={value}
+				color='success'
+				showPercentage={showPercentage}
+				aria-label={label}
+				className='[&_circle]:![stroke:var(--nok-color-border-success)] [&_circle]:[stroke-width:6.5px] [&_svg]:overflow-visible'
+			/>
+			{children && (
+				<span aria-hidden='true' className='absolute text-text-primary' style={text['label-md']}>
+					{children}
+				</span>
+			)}
+		</div>
+	);
+}
 
 /** The surface panels the screens are built from: surface fill, default border, xl radius. */
 export function Panel({ children, className = '', as: Tag = 'section', ...props }: {

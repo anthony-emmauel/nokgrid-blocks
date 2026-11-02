@@ -10,6 +10,7 @@ import { SidebarFooter } from '@nokgridcore/ui/sidebar-footer';
 import { SidebarGroup } from '@nokgridcore/ui/sidebar-group';
 import { SidebarHeader } from '@nokgridcore/ui/sidebar-header';
 import { app, extrasNav, user, workspaceNav, type NavItem, type Screen } from './data';
+import { tintedInfoBadge } from './parts';
 import { Dashboard } from './screens/dashboard';
 import { Editor } from './screens/editor';
 import { Jobs } from './screens/jobs';
@@ -80,6 +81,7 @@ export default function AiResumeBuilder({
 			aria-label={item.pro ? `${item.label} (Pro)` : item.label}
 			aria-current={item.screen === screen ? 'page' : undefined}
 			title={collapsed ? item.label : undefined}
+			className={tintedInfoBadge}
 			state={item.screen === screen ? 'active' : 'default'}
 			showLeadingIcon
 			icon={item.icon}

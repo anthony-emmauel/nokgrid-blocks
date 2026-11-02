@@ -5,7 +5,6 @@ import { Divider } from '@nokgridcore/ui/divider';
 import type { IconName } from '@nokgridcore/ui/icon';
 import { Input } from '@nokgridcore/ui/input';
 import { MenuItem } from '@nokgridcore/ui/menu-item';
-import { Progress } from '@nokgridcore/ui/progress';
 import { Tab } from '@nokgridcore/ui/tab';
 import { TabGroup } from '@nokgridcore/ui/tab-group';
 import { TextArea } from '@nokgridcore/ui/textarea';
@@ -22,7 +21,7 @@ import {
 	type CheckState,
 } from '../data';
 import type { Nav } from '../index';
-import { fill, Panel, primaryText, selectedCard } from '../parts';
+import { fill, Panel, primaryText, ScoreRing, selectedCard, tintedInfoBadge } from '../parts';
 import { text } from '../text';
 
 const checkIcon: Record<CheckState, IconName> = {
@@ -74,7 +73,7 @@ export function Editor({ nav }: { nav: Nav }) {
 
 					<Panel className='flex flex-col' aria-label='Score and projects'>
 						<div className='flex items-center gap-component-lg p-5'>
-							<Progress type='circular' size='sm' value={editorScore.value} showPercentage aria-label={`${editorScore.label}: ${editorScore.value}%`} />
+							<ScoreRing size='sm' value={editorScore.value} showPercentage label={`${editorScore.label}: ${editorScore.value}%`} />
 							<div className='flex flex-col gap-[2px]'>
 								<span className='text-text-primary' style={text['body-md']}>
 									{editorScore.label}
@@ -127,6 +126,7 @@ export function Editor({ nav }: { nav: Nav }) {
 														role={check.state === 'locked' ? 'button' : undefined}
 														aria-label={check.state === 'locked' ? `${check.label} (Pro)` : undefined}
 														style={fill}
+														className={tintedInfoBadge}
 														showLeadingIcon
 														icon={checkIcon[check.state]}
 														showLabel
