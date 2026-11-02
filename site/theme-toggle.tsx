@@ -32,11 +32,12 @@ export function ThemeToggle() {
 	return (
 		<Button
 			variant='tertiary'
-			size='md'
+			size='lg'
 			icon={theme === 'dark' ? 'Sun' : 'Moon'}
 			iconPosition='only'
 			aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-			className='border-transparent bg-transparent'
+			// Icon-only md/lg padding leaves less room than the icon (NOKGRID-GAPS.md), so it's dropped here.
+			className='border-transparent bg-transparent !p-0'
 			onClick={toggle}
 		/>
 	);
