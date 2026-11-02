@@ -3,11 +3,14 @@ import { notFound } from 'next/navigation';
 import { loaders } from '@/blocks/loaders';
 import { blockTitle, getBlock } from '@/blocks/registry';
 
-type Params = { params: Promise<{ slug: string }> };
+type Params = { params: Promise<{ slug: string; screen?: string[] }> };
 
-/** Only blocks with code get a page; in-design blocks have no loader yet. */
+/** Every block's own page plus each of its client-side routes; in-design blocks have no loader yet. */
 export function blockStaticParams() {
-	return Object.keys(loaders).map((slug) => ({ slug }));
+	return Object.entries(loaders).flatMap(([slug, { screens = [] }]) => [
+		{ slug, screen: [] },
+		...screens.map((screen) => ({ slug, screen })),
+	]);
 }
 
 export async function blockMetadata({ params }: Params): Promise<Metadata> {
@@ -29,8 +32,10 @@ export async function blockMetadata({ params }: Params): Promise<Metadata> {
 
 /** The block alone, full screen, like a real app page. */
 export async function BlockPage({ params }: Params) {
-	const load = loaders[(await params).slug];
-	if (!load) notFound();
-	const { default: Block } = await load();
-	return <Block />;
+	const { slug, screen = [] } = await params;
+	const loader = loaders[slug];
+	const known = screen.length === 0 || loader?.screens?.some((s) => s.join('/') === screen.join('/'));
+	if (!loader || !known) notFound();
+	const { default: Block } = await loader.load();
+	return <Block screen={screen} />;
 }

@@ -1,4 +1,4 @@
-import { BlockPage, blockMetadata, blockStaticParams } from '../../block-page';
+import { BlockPage, blockMetadata, blockStaticParams } from '../../../block-page';
 
 export const dynamicParams = false;
 export const generateStaticParams = blockStaticParams;

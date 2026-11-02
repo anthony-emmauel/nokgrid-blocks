@@ -48,7 +48,41 @@ Used by Blocks 01.
 - **TabGroup** sets no `tablist`/`tab` roles and has no arrow-key handling.
 - **TopBar's built-in search** can't be labelled or sized. Blocks 01 hides it and puts a labelled `SearchInput` in the `additional` slot.
 
+### Missing: `icon.tile` (to upstream)
+Figma's icon tile (a rounded plate with a centred icon) has no NokGridCore component. Built once as `blocks/_shared/icon-tile.tsx` to the Figma spec, with the props NokGridCore would use: `size` (small 20px plate / 14px icon / radius sm, medium 28 / 16 / md, large 36 / 20 / lg), `icon`, `plate` and `iconColor` (colour token names, default `background-brand-subtle` and `icon-default`). Blocks 02 uses it everywhere a tile appears. **To upstream** into `@nokgridcore/ui`, then delete the shared file.
+- **Icon has no 14px size** (`sm` is 16px). The small tile overrides the glyph with `!size-[14px]`.
+
+### ModalHeader artwork slot
+`artworkType='hero'` reserves a 160px band but takes no artwork. Blocks 02's Upgrade modal draws the hexagon pattern as an inline SVG from tokens and lays it over the band (`blocks/ai-resume-builder/upgrade-modal.tsx`), raising the overlay close button with `[&_button]:z-10`. ModalHeader should accept artwork (an image or node) for its hero.
+
+### Input, Select
+- **`className` lands on the field, not the outer wrapper,** so width and flex classes size the field box instead of the control. `flex-1` collapses the field's height inside the wrapper's column. Blocks 02 wraps each sized Input/Select in a `<div>` that takes the width.
+
+### Toggle
+- **Controlled through `state`** (`'on' | 'off'`), not `checked`.
+- **`className` lands on the track,** so the label can't be pushed to the far side. Blocks 02 builds the full-width "Sort by date" row as its own `<label>` around a `hideLabel` Toggle.
+- **The thumb is `bg-white`** (Tailwind's literal white). On the black theme's dark mode the on-track is near-white, so the thumb disappears. Blocks 02 repaints it with `action-primary-text`.
+
+### Progress
+- **The circular label can't drop "%".** The review score is out of 100, not a percentage, so Blocks 02 hides Progress's label and centres "72" over the ring.
+- **Circular has no track,** draws a 4/8px stroke, and colours the arc `background/success-strong`. Figma's score ring is a `border/default` track under a `border/success` arc, both 6.5px. `ScoreRing` (`blocks/ai-resume-builder/parts.tsx`) draws the track behind Progress and restyles the arc with `[&_circle]` overrides. Progress should take a track and a stroke width.
+
+### MenuItem (Blocks 02)
+- **Badge is always filled and fully rounded,** with no appearance prop. Figma's "Pro" badge is the tinted info badge. Blocks 02 repaints it with Badge's own tinted-info tokens through `[&>.rounded-full]` overrides (`tintedInfoBadge` in `parts.tsx`). It can't be swapped for a real `Badge`, because SidebarGroup clones its MenuItem children and won't take a wrapper. MenuItem should take `badgeAppearance`.
+- **Enter handlers must `preventDefault()`** when they open a dialog, or the same keypress activates the dialog's newly focused close button. Handled in `activateOnEnter`.
+
+### SidebarFooter
+- **Profile is image-only** (no initials avatar). Blocks 02 hides it and puts an initials `Avatar` button in the content slot.
+- **SidebarHeader's floating expand button** (collapsed rail) sits past the sidebar's edge, so content after the sidebar paints over it. Blocks 02 gives the sidebar `relative z-10`.
+
+### Chip (Blocks 02)
+- **Selected label is `text-text-white`,** invisible on the black theme's near-white selected fill. Blocks 02 passes `text-action-primary-text`.
+
+### Plan option card
+The Upgrade modal's plan rows (radio, label, badge, price in a bordered card that thickens when selected) have no component. Composed in the block from `Radio` and `Badge`.
+
 ## Tokens
+- **Warning tiles fail contrast in light mode.** `icon/warning` on `background/warning` is 1.7:1, and no warning icon or text token reaches 3:1 on a pale plate (`text/warning` gets 2.8:1). Blocks 02's Review tiles use `background/warning-strong` with `icon/inverse` (11.8:1 light, 5.3:1 dark), which is Badge's filled-warning pairing. Error (4.4:1), info (4.8:1) and success (3.0:1) keep Figma's pairs. A darker light-mode `icon/warning` would let warning match the others.
 - **`colour/text/inverse` aliases `colour/background/inverse`,** so text in that token is invisible on an inverse fill. The selected filter chip uses `colour/background/canvas` for its label instead.
 - **Display/heading font weights are keywords** (`bold`, `semibold`). CSS has no `semibold`, so styles using the weight token fall back to normal weight. The site uses numeric weights (`site/site.css`, `pageTitle` in Blocks 01).
 - **`@nokgridcore/tokens/tailwind-theme` has no type declarations.** See `types/nokgridcore-tokens.d.ts`.
