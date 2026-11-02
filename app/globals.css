@@ -1,6 +1,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Native scrollbars and form controls follow the token mode. Without this, a scrolling row
+   (such as the Users admin command bar) shows a light scrollbar in dark mode. */
+:root {
+	color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+	color-scheme: dark;
+}
+
 body {
 	background: var(--nok-color-background-canvas);
 	color: var(--nok-color-text-primary);
