@@ -5,6 +5,7 @@ import { useEffect, useId, useState } from 'react';
 import { Badge } from '@nokgridcore/ui/badge';
 import { DOCS_URL, REPO_URL, STORYBOOK_URL } from './links';
 import { text } from './text';
+import { ThemeToggle } from './theme-toggle';
 
 const links = [
 	{ label: 'Documentation', href: DOCS_URL },
@@ -51,7 +52,7 @@ export function SiteNav() {
 	});
 
 	return (
-		<header className='relative border-0 border-b border-solid border-border-default bg-background-canvas'>
+		<header className='sticky top-0 z-30 border-0 border-b border-solid border-border-default bg-background-canvas'>
 			<div className='flex items-center justify-between px-5 py-[22px] lg:px-[144px]'>
 				<Link
 					href='/'
@@ -67,19 +68,22 @@ export function SiteNav() {
 					<Badge label='BLOCKS' appearance='tinted' />
 				</Link>
 
-				<nav aria-label='Main' className='hidden lg:block'>
-					<ul className='m-0 flex list-none items-center gap-[28px] p-0'>{items}</ul>
-				</nav>
+				<div className='flex items-center gap-component-md lg:gap-[28px]'>
+					<nav aria-label='Main' className='hidden lg:block'>
+						<ul className='m-0 flex list-none items-center gap-[28px] p-0'>{items}</ul>
+					</nav>
+					<ThemeToggle />
 
-				<button
-					type='button'
-					className='rounded-sm text-text-secondary hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nok-color-border-focus)] lg:hidden'
-					style={text['label-lg']}
-					aria-expanded={open}
-					aria-controls={menuId}
-					onClick={() => setOpen((value) => !value)}>
-					{open ? 'Close' : 'Menu'}
-				</button>
+					<button
+						type='button'
+						className='rounded-sm text-text-secondary hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nok-color-border-focus)] lg:hidden'
+						style={text['label-lg']}
+						aria-expanded={open}
+						aria-controls={menuId}
+						onClick={() => setOpen((value) => !value)}>
+						{open ? 'Close' : 'Menu'}
+					</button>
+				</div>
 			</div>
 
 			{open && (
