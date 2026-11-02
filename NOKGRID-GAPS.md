@@ -82,7 +82,7 @@ Figma's icon tile (a rounded plate with a centred icon) has no NokGridCore compo
 The Upgrade modal's plan rows (radio, label, badge, price in a bordered card that thickens when selected) have no component. Composed in the block from `Radio` and `Badge`.
 
 ## Tokens
-- **Warning tiles fail contrast in light mode.** `icon/warning` on `background/warning` is 1.7:1, and no warning icon or text token reaches 3:1 on a pale plate (`text/warning` gets 2.8:1). Blocks 02's Review tiles use `background/warning-strong` with `icon/inverse` (11.8:1 light, 5.3:1 dark), which is Badge's filled-warning pairing. Error (4.4:1), info (4.8:1) and success (3.0:1) keep Figma's pairs. A darker light-mode `icon/warning` would let warning match the others.
+- **Warning tiles are low contrast in light mode.** `icon/warning` on `background/warning` is 1.7:1, and no warning token reaches 3:1 on that plate. Blocks 02's Review tiles keep the soft plate and use `text/warning` for the icon (2.8:1 light, 8.8:1 dark). Error (4.4:1), info (4.8:1) and success (3.0:1) keep Figma's pairs. A darker light-mode `icon/warning` would fix it.
 - **`colour/text/inverse` aliases `colour/background/inverse`,** so text in that token is invisible on an inverse fill. The selected filter chip uses `colour/background/canvas` for its label instead.
 - **Display/heading font weights are keywords** (`bold`, `semibold`). CSS has no `semibold`, so styles using the weight token fall back to normal weight. The site uses numeric weights (`site/site.css`, `pageTitle` in Blocks 01).
 - **`@nokgridcore/tokens/tailwind-theme` has no type declarations.** See `types/nokgridcore-tokens.d.ts`.
