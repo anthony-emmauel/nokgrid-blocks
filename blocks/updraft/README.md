@@ -9,6 +9,8 @@ The Integrations page of Updraft, an AI agents workspace: a collapsible account 
 
 Placeholder content (nav, integrations and their counts) lives in `data.ts`. The third-party logos are served from `/blocks/updraft/logos/`.
 
+Logos belong to their owners and aren't covered by the MIT licence.
+
 ## Components used
 
 `TopBar`, `Sidebar` (`SidebarHeader`, `SidebarContent`, `SidebarGroup`), `MenuItem`, `Avatar`, `Button`, `Card`, `Chip`, `SearchInput`, all from `@nokgridcore/ui`, with layout from `@nokgridcore/tokens`.
