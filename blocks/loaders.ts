@@ -19,8 +19,5 @@ export const loaders: Record<string, BlockLoader> = {
 		load: () => import('./ai-resume-builder'),
 		screens: [['sample-library'], ['job-search'], ['project-editor'], ['review'], ['settings']],
 	},
-	updraft: {
-		load: () => import('./updraft'),
-		screens: [['chat'], ['agent'], ['integrations']],
-	},
+	updraft: { load: () => import('./updraft') },
 };

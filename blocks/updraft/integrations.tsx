@@ -4,9 +4,9 @@ import { Card } from '@nokgridcore/ui/card';
 import { Chip } from '@nokgridcore/ui/chip';
 import { Icon } from '@nokgridcore/ui/icon';
 import { SearchInput } from '@nokgridcore/ui/search-input';
-import { integrationFilters, integrations, integrationTotal, type Integration } from '../data';
-import { CardMedia, fill, Logo, plainButton, primaryText } from '../parts';
-import { text } from '../text';
+import { integrationFilters, integrations, integrationTotal, type Integration } from './data';
+import { CardMedia, fill, Logo, plainButton, primaryText } from './parts';
+import { text } from './text';
 
 export function Integrations() {
 	const [filter, setFilter] = useState<(typeof integrationFilters)[number]['label']>('All');

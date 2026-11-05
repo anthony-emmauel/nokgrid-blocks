@@ -82,21 +82,8 @@ Figma's icon tile (a rounded plate with a centred icon) has no NokGridCore compo
 ### Plan option card
 The Upgrade modal's plan rows (radio, label, badge, price in a bordered card that thickens when selected) have no component. Composed in the block from `Radio` and `Badge`.
 
-### Chip (Blocks 03)
-- **No logo slot, and always a `<button>`.** `leadingIcon` takes a named icon only. Blocks 03's tool labels ("Gmail", "email-ops · 4K installs") carry third-party logos and aren't controls, so `ToolChip` (`blocks/updraft/parts.tsx`) composes them from Chip's medium tokens. Chip should take an icon node and render as a non-interactive label.
-
-### Avatar
-- **Sizes stop at 40px.** Figma's shortcuts, agent header and crew band use 52–80px with initials at 30% of the size. `Disc` (`blocks/updraft/parts.tsx`) overrides the size and text through inline CSS variables.
-
 ### Card (Blocks 03)
-- **Horizontal media is top-left aligned.** Figma centres it in a 48px slot, so `CardMedia` wraps it.
-- **Bleed media has a fixed height.** The Welcome card overrides it to Figma's 104px with `[&>div:first-child]:!h-[104px]`.
-
-### Sidebar
-- **Width is fixed at 240px.** Chat is 300px in Figma, so Blocks 03 sets `width` inline while expanded.
-
-### TextArea
-- **`className` lands on the field,** which has 8px padding of its own. Blocks 03 clears the fill and adds to the inner padding to reach Figma's 16/12.
+- **Horizontal media is top-left aligned.** Figma centres it in a 48px slot, so `CardMedia` (`blocks/updraft/parts.tsx`) wraps it.
 
 ## Tokens
 - **Warning tiles are low contrast in light mode.** `icon/warning` on `background/warning` is 1.7:1, and no warning token reaches 3:1 on that plate. Blocks 02's Review tiles keep the soft plate and use `text/warning` for the icon (2.8:1 light, 8.8:1 dark). Error (4.4:1), info (4.8:1) and success (3.0:1) keep Figma's pairs. A darker light-mode `icon/warning` would fix it.
