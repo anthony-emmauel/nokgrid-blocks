@@ -32,7 +32,7 @@ export function ThemeToggle() {
 	return (
 		<Button
 			variant='tertiary'
-			size='lg'
+			size='md'
 			icon={theme === 'dark' ? 'Sun' : 'Moon'}
 			iconPosition='only'
 			aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
