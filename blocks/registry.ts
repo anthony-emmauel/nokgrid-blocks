@@ -130,6 +130,37 @@ export const blocks: BlockEntry[] = [
 		widths: [1440],
 		frameHeight: 1000,
 	},
+	{
+		slug: 'updraft',
+		number: '03',
+		name: 'Updraft',
+		description: 'An integrations library for an AI agents workspace, with category filters and search, in light and dark.',
+		modalDescription: {
+			full: 'An integrations library with category filters and search. Light and dark.',
+			short: 'Integrations library · light and dark',
+		},
+		tags: ['AI tool', 'Integrations', 'Filters'],
+		categories: ['AI tools'],
+		status: 'live',
+		date: '2026-11-05',
+		thumbnail: '/blocks/updraft/thumbnail',
+		figma: figmaFrame('127-500'),
+		components: [
+			'top-bar',
+			'sidebar',
+			'sidebar-header',
+			'sidebar-content',
+			'sidebar-group',
+			'menu-item',
+			'avatar',
+			'button',
+			'card',
+			'chip',
+			'search-input',
+		],
+		widths: [1440],
+		frameHeight: 1055,
+	},
 ];
 
 export const liveBlocks = blocks.filter((block) => block.status === 'live');

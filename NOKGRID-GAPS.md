@@ -82,6 +82,9 @@ Figma's icon tile (a rounded plate with a centred icon) has no NokGridCore compo
 ### Plan option card
 The Upgrade modal's plan rows (radio, label, badge, price in a bordered card that thickens when selected) have no component. Composed in the block from `Radio` and `Badge`.
 
+### Card (Blocks 03)
+- **Horizontal media is top-left aligned.** Figma centres it in a 48px slot, so `CardMedia` (`blocks/updraft/parts.tsx`) wraps it.
+
 ## Tokens
 - **Warning tiles are low contrast in light mode.** `icon/warning` on `background/warning` is 1.7:1, and no warning token reaches 3:1 on that plate. Blocks 02's Review tiles keep the soft plate and use `text/warning` for the icon (2.8:1 light, 8.8:1 dark). Error (4.4:1), info (4.8:1) and success (3.0:1) keep Figma's pairs. A darker light-mode `icon/warning` would fix it.
 - **`colour/text/inverse` aliases `colour/background/inverse`,** so text in that token is invisible on an inverse fill. The selected filter chip uses `colour/background/canvas` for its label instead.
