@@ -49,9 +49,10 @@ export default function Updraft() {
 				<SidebarContent style={{ gap: 'var(--nok-spacing-component-md)', height: '100%' }}>
 					<SidebarGroup showLabel={false}>{[item('Back', 'ArrowLeft')]}</SidebarGroup>
 					<SidebarGroup showLabel={false}>{accountNav.map((n) => item(n.label, n.icon, n.current))}</SidebarGroup>
-					<div className='mt-auto'>
-						<SidebarGroup showLabel={false}>{accountFooterNav.map((n) => item(n.label, n.icon))}</SidebarGroup>
-					</div>
+					{/* A direct child, not wrapped: the sidebar only passes its collapsed state to its own children. */}
+					<SidebarGroup showLabel={false} style={{ marginTop: 'auto' }}>
+						{accountFooterNav.map((n) => item(n.label, n.icon))}
+					</SidebarGroup>
 				</SidebarContent>
 			</Sidebar>
 
