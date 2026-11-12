@@ -87,7 +87,7 @@ The Upgrade modal's plan rows (radio, label, badge, price in a bordered card tha
 
 ### Blocks 04 (Folio)
 - **TopBar's logo is a named icon.** Folio's mark is four status-coloured squares, so it goes in the `leading` slot with the product name (`FolioMark`, `blocks/folio/parts.tsx`).
-- **TopBar's built-in search can't be sized or labelled** (as in Blocks 01). Folio puts a labelled `SearchInput` in the `additional` slot.
+- **TopBar's built-in search can't be sized or labelled** (as in Blocks 01), **and its `additional` slot sits in the fixed right cluster,** so nothing there can be centred. Figma centres Folio's search between the logo and the icons, so a labelled `SearchInput` goes in the `leading` slot, with the left cluster stretched by `[&>div:first-child]:flex-1`.
 - **No `sidebar.subgroup`.** Figma nests the space's pages in an indented subgroup; Folio composes it as an indented group of `MenuItem`s, shown only while the sidebar is expanded.
 - **Sidebar width is fixed at 240px.** Folio is 260px in Figma, set inline while expanded.
 - **Table cells take text only** (as in Blocks 01). Folio's rows hold logos, avatar stacks and an action button, so the table is a semantic `<table>` styled with tokens.

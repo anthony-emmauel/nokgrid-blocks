@@ -47,6 +47,8 @@ function subscribeToTheme(onChange: () => void) {
 export default function Folio({ screen: segments = [], basePath = '/blocks/folio' }: { screen?: string[]; basePath?: string }) {
 	const [screen, setScreen] = useState<Screen>(() => toScreen(segments[0]));
 	const [collapsed, setCollapsed] = useState(false);
+	// Below 1024px the sidebar is a drawer over the content instead of a rail.
+	const [drawerOpen, setDrawerOpen] = useState(false);
 	// The space's page tree: closed on the overview, open on a page (as in Figma).
 	const [treeOpen, setTreeOpen] = useState(() => toScreen(segments[0]) === 'page');
 	const [query, setQuery] = useState('');
@@ -55,6 +57,7 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 	const go = useCallback(
 		(next: Screen) => {
 			setScreen(next);
+			setDrawerOpen(false);
 			if (next === 'page') setTreeOpen(true);
 			window.history.pushState(null, '', next === 'space' ? basePath : `${basePath}/${PAGE_SLUG}`);
 			document.getElementById('folio-main')?.scrollTo({ top: 0 });
@@ -67,6 +70,22 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 		window.addEventListener('popstate', sync);
 		return () => window.removeEventListener('popstate', sync);
 	}, [basePath]);
+
+	useEffect(() => {
+		if (!drawerOpen) return;
+		const close = (event: globalThis.KeyboardEvent) => event.key === 'Escape' && setDrawerOpen(false);
+		window.addEventListener('keydown', close);
+		return () => window.removeEventListener('keydown', close);
+	}, [drawerOpen]);
+
+	function toggleSidebar() {
+		if (window.matchMedia('(min-width: 1024px)').matches) {
+			setCollapsed((value) => !value);
+		} else {
+			setCollapsed(false);
+			setDrawerOpen((value) => !value);
+		}
+	}
 
 	function toggleTheme() {
 		const next = theme === 'dark' ? 'light' : 'dark';
@@ -109,26 +128,29 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 		<div className={`flex h-screen flex-col bg-background-canvas ${onBrand}`}>
 			<TopBar
 				showSidebarToggle
-				onSidebarToggle={() => setCollapsed((value) => !value)}
+				onSidebarToggle={toggleSidebar}
 				showLogo={false}
 				showProductName={false}
 				showLeading
+				// TopBar keeps its search slot in the fixed right cluster. Figma centres the search in the
+				// space between the logo and the icons, so it rides in the leading slot, which is stretched
+				// with the [&>div:first-child]:flex-1 below (NOKGRID-GAPS.md).
 				leading={
-					<span className='flex items-center gap-component-sm text-text-primary' style={text['label-md']}>
-						<span className='flex size-6 items-center justify-center'>
-							<FolioMark />
+					<>
+						<span className='flex shrink-0 items-center gap-component-sm text-text-primary' style={text['label-md']}>
+							<span className='flex size-6 items-center justify-center'>
+								<FolioMark />
+							</span>
+							{app.name}
 						</span>
-						{app.name}
-					</span>
-				}
-				showAdditional
-				additional={
-					<div className='flex w-full justify-center'>
-						<div className='w-[591px] max-w-full'>
-							<SearchInput size='sm' placeholder={app.search} aria-label={app.search} />
+						<div className='hidden min-w-0 flex-1 justify-center px-component-lg lg:flex'>
+							<div className='w-[591px] max-w-full'>
+								<SearchInput size='sm' placeholder={app.search} aria-label={app.search} />
+							</div>
 						</div>
-					</div>
+					</>
 				}
+				showAdditional={false}
 				showSearch={false}
 				showActions
 				actions={
@@ -147,10 +169,18 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 						<Face person={me} />
 					</div>
 				}
-				className='w-full shrink-0'
+				className='w-full shrink-0 [&>div:first-child]:flex-1'
 			/>
 
-			<div className='flex min-h-0 flex-1'>
+			<div className='relative flex min-h-0 flex-1'>
+				{drawerOpen && (
+					<button
+						type='button'
+						aria-label='Close navigation'
+						onClick={() => setDrawerOpen(false)}
+						className='absolute inset-0 z-20 bg-black/40 lg:hidden'
+					/>
+				)}
 				<Sidebar
 					role='navigation'
 					aria-label={app.name}
@@ -158,7 +188,7 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 					onCollapsedChange={setCollapsed}
 					showBorder={false}
 					showFooter={false}
-					className='relative z-10 shrink-0'
+					className={`relative z-10 shrink-0 max-lg:absolute max-lg:inset-y-0 max-lg:left-0 max-lg:z-30 max-lg:shadow-lg ${drawerOpen ? '' : 'max-lg:hidden'}`}
 					style={{
 						height: '100%',
 						borderRight: '1px solid var(--nok-color-border-default)',
@@ -250,19 +280,19 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 				</Sidebar>
 
 				<main id='folio-main' className='relative min-w-0 flex-1 overflow-y-auto bg-background-surface'>
-					<div className='sticky top-0 z-10 flex h-14 items-center justify-between border-0 border-b border-solid border-border-default bg-background-surface px-component-lg'>
-						<div>
+					<div className='sticky top-0 z-10 flex h-14 items-center justify-between gap-component-md border-0 border-b border-solid border-border-default bg-background-surface px-component-lg'>
+						<div className='min-w-0 overflow-hidden'>
 							{screen === 'page' && (
 								<Breadcrumb aria-label='Breadcrumb'>
-									<BreadcrumbItem label={space.name} showSeparator={false} />
-									<BreadcrumbItem label={space.project} onClick={() => go('space')} />
-									<BreadcrumbItem label={page.title} state='current' aria-current='page' />
+									<BreadcrumbItem label={space.name} showSeparator={false} className='max-sm:hidden' />
+									<BreadcrumbItem label={space.project} onClick={() => go('space')} className='max-sm:[&>*:first-child]:hidden' />
+									<BreadcrumbItem label={page.title} state='current' aria-current='page' className='max-sm:hidden' />
 								</Breadcrumb>
 							)}
 						</div>
 						<div className='flex items-center gap-component-sm'>
 							{screen === 'page' && (
-								<span className='text-text-secondary' style={text['body-sm']}>
+								<span className='text-text-secondary max-md:hidden' style={text['body-sm']}>
 									{page.published}
 								</span>
 							)}
@@ -279,7 +309,7 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 			</div>
 
 			{screen === 'space' && (
-				<div className='fixed bottom-6 right-6 z-20 flex flex-col gap-component-md'>
+				<div className='fixed bottom-4 right-4 z-20 lg:bottom-6 lg:right-6 flex flex-col gap-component-md'>
 					{/* Icon-only md squeezes its icon (NOKGRID-GAPS.md), so the padding is set back to Figma's 8px. */}
 					<Button variant='secondary' size='md' icon='Info' iconPosition='only' aria-label='About this space' className='!p-component-sm' />
 					<Button

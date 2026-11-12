@@ -10,9 +10,9 @@ const sectionHeading = { ...text['display-sm'], fontSize: 26, lineHeight: '34px'
 /** A document in the space: title, meta row and the page's sections. */
 export function Page() {
 	return (
-		<article className='flex justify-center px-layout-lg py-16'>
+		<article className='flex justify-center px-5 py-10 md:px-layout-lg md:py-16'>
 			<div className='flex w-[760px] max-w-full flex-col gap-5 text-text-primary'>
-				<h1 className='m-0' style={pageTitle}>
+				<h1 className='m-0 max-md:!text-[32px] max-md:!leading-10' style={pageTitle}>
 					{page.title}
 				</h1>
 				<ul className='m-0 flex list-none flex-wrap items-center gap-5 p-0 text-text-secondary' style={text['body-sm']}>
@@ -30,7 +30,7 @@ export function Page() {
 				<span aria-hidden='true' className='h-4' />
 				{page.sections.map((section) => (
 					<section key={section.heading} className='flex flex-col gap-5'>
-						<h2 className='m-0' style={sectionHeading}>
+						<h2 className='m-0 max-md:!text-[22px] max-md:!leading-[30px]' style={sectionHeading}>
 							{section.heading}
 						</h2>
 						{section.paragraphs.map((p) => (

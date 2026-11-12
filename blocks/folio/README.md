@@ -7,6 +7,8 @@ Folio, a team workspace: a space overview and one of its pages, under a top bar 
 
 Open the page from its table row or from the sidebar's page tree. "Northstar Overhaul" in the sidebar opens and closes the tree, and "Search by title" filters it. The top bar's panel icon collapses the sidebar. Screens are client-side routes under the block's base path (`basePath` prop), so Back and Forward work.
 
+Below 1024px the sidebar becomes a drawer from the top bar's panel icon (Esc or a tap outside closes it), the top search hides, and the table drops Last edited (and Collaborators on phones).
+
 Light and dark come from the token modes: set `data-theme="dark"` on a parent. The top bar's switch changes the mode and saves the choice.
 
 Placeholder content (people, pages, the space and the document) lives in `data.ts`. Images are served from `/blocks/folio/`: the banner, the avatar photos (`people/`) and third-party logos (`logos/`). Logos belong to their owners and aren't covered by the MIT licence.
