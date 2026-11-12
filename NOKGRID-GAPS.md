@@ -85,6 +85,15 @@ The Upgrade modal's plan rows (radio, label, badge, price in a bordered card tha
 ### Card (Blocks 03)
 - **Horizontal media is top-left aligned.** Figma centres it in a 48px slot, so `CardMedia` (`blocks/updraft/parts.tsx`) wraps it.
 
+### Blocks 04 (Folio)
+- **TopBar's logo is a named icon.** Folio's mark is four status-coloured squares, so it goes in the `leading` slot with the product name (`FolioMark`, `blocks/folio/parts.tsx`).
+- **TopBar's built-in search can't be sized or labelled** (as in Blocks 01). Folio puts a labelled `SearchInput` in the `additional` slot.
+- **No `sidebar.subgroup`.** Figma nests the space's pages in an indented subgroup; Folio composes it as an indented group of `MenuItem`s, shown only while the sidebar is expanded.
+- **Sidebar width is fixed at 240px.** Folio is 260px in Figma, set inline while expanded.
+- **Table cells take text only** (as in Blocks 01). Folio's rows hold logos, avatar stacks and an action button, so the table is a semantic `<table>` styled with tokens.
+- **Breadcrumb items are underlined,** including the current page. Figma shows plain text. Left as the component draws it.
+- **Icon-only `md` squeezes its icon,** so the floating buttons set Figma's 8px padding back. The blue "Ask Folio AI" button uses `background/info-strong`, which Button has no variant for.
+
 ## Tokens
 - **Warning tiles are low contrast in light mode.** `icon/warning` on `background/warning` is 1.7:1, and no warning token reaches 3:1 on that plate. Blocks 02's Review tiles keep the soft plate and use `text/warning` for the icon (2.8:1 light, 8.8:1 dark). Error (4.4:1), info (4.8:1) and success (3.0:1) keep Figma's pairs. A darker light-mode `icon/warning` would fix it.
 - **`colour/text/inverse` aliases `colour/background/inverse`,** so text in that token is invisible on an inverse fill. The selected filter chip uses `colour/background/canvas` for its label instead.

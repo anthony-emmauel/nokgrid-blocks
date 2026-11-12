@@ -20,4 +20,8 @@ export const loaders: Record<string, BlockLoader> = {
 		screens: [['sample-library'], ['job-search'], ['project-editor'], ['review'], ['settings']],
 	},
 	updraft: { load: () => import('./updraft') },
+	folio: {
+		load: () => import('./folio'),
+		screens: [['picker-app-usability-study']],
+	},
 };

@@ -13,6 +13,7 @@ Ready-made dashboard blocks built with [NokGridCore](https://www.nokgrid.com/): 
 | 01 | [Users admin](https://blocks.nokgrid.com/blocks/users-admin) | [Frame](https://www.figma.com/design/UY2Mue2lSBmcaGdvjC6CRa/NokGridCore---Blocks-internal?node-id=36-7279) | Live |
 | 02 | [AI resume builder](https://blocks.nokgrid.com/blocks/ai-resume-builder) | [Frame](https://www.figma.com/design/UY2Mue2lSBmcaGdvjC6CRa/NokGridCore---Blocks-internal?node-id=53-1702) | Live |
 | 03 | [Updraft](https://blocks.nokgrid.com/blocks/updraft) | [Frame](https://www.figma.com/design/UY2Mue2lSBmcaGdvjC6CRa/NokGridCore---Blocks-internal?node-id=127-500) | Live |
+| 04 | [Folio](https://blocks.nokgrid.com/blocks/folio) | [Frame](https://www.figma.com/design/UY2Mue2lSBmcaGdvjC6CRa/NokGridCore---Blocks-internal?node-id=155-47) | Live |
 
 New blocks are added regularly.
 
