@@ -161,6 +161,37 @@ export const blocks: BlockEntry[] = [
 		widths: [1440],
 		frameHeight: 1055,
 	},
+	{
+		slug: 'folio',
+		number: '04',
+		name: 'Folio',
+		description: 'A team workspace: a space overview with its pages, and a document page, in light and dark.',
+		modalDescription: {
+			full: 'A team workspace: a space overview with its pages, and a document page. Light and dark.',
+			short: 'Team workspace · light and dark',
+		},
+		tags: ['Workspace', 'Docs', 'Table'],
+		categories: ['Workspaces', 'Tables'],
+		status: 'live',
+		date: '2026-11-12',
+		thumbnail: '/blocks/folio/thumbnail',
+		figma: figmaFrame('155-47'),
+		components: [
+			'top-bar',
+			'sidebar',
+			'sidebar-content',
+			'sidebar-group',
+			'menu-item',
+			'search-input',
+			'breadcrumb',
+			'breadcrumb-item',
+			'avatar',
+			'button',
+			'card',
+		],
+		widths: [1440],
+		frameHeight: 1080,
+	},
 ];
 
 export const liveBlocks = blocks.filter((block) => block.status === 'live');
