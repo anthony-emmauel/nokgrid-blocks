@@ -296,7 +296,8 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 									{page.published}
 								</span>
 							)}
-							<Button variant='tertiary' size='sm' icon='Lock'>
+							{/* In dark mode the tertiary fill reads darker than the bar it sits on, so it's cleared; hover keeps its fill. */}
+							<Button variant='tertiary' size='sm' icon='Lock' className='[[data-theme=dark]_&:not(:hover)]:bg-transparent'>
 								Share
 							</Button>
 							<Button variant='tertiary' size='sm' icon='Ellipsis' iconPosition='only' aria-label='More actions' className={plainButton} />
