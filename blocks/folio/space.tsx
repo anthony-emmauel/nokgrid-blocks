@@ -62,7 +62,7 @@ export function Space({ open }: { open: (doc: Doc) => void }) {
 								<tr
 									key={doc.slug}
 									onClick={doc.opens ? () => open(doc) : undefined}
-									className={doc.opens ? 'cursor-pointer transition-colors hover:bg-background-overlay' : undefined}>
+									className={`transition-colors duration-200 ease-out hover:bg-background-overlay motion-reduce:transition-none ${doc.opens ? 'cursor-pointer' : ''}`}>
 									<td className={`${cell} pl-component-md`}>
 										<span className='flex items-center gap-component-xs'>
 											{doc.source ?

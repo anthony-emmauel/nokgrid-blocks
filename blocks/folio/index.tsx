@@ -100,7 +100,7 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 	const item = (
 		label: string,
 		icon: IconName,
-		options: { trailing?: IconName; active?: boolean; onClick?: () => void; expanded?: boolean } = {},
+		options: { trailing?: IconName; active?: boolean; onClick?: () => void; expanded?: boolean; className?: string } = {},
 	) => (
 		<MenuItem
 			key={label}
@@ -109,6 +109,7 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 			aria-current={options.active ? 'page' : undefined}
 			aria-expanded={options.expanded}
 			title={collapsed ? label : undefined}
+			className={options.className}
 			state={options.active ? 'active' : 'default'}
 			showLeadingIcon
 			icon={icon}
@@ -217,7 +218,11 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 								</div>
 							)}
 							{item(space.project, treeOpen ? 'FolderOpen' : 'Folder', {
-								trailing: treeOpen ? 'ChevronDown' : 'ChevronRight',
+								// One chevron that turns as the tree opens and closes; MenuItem's trailing icon is its last child.
+								trailing: 'ChevronRight',
+								className: `[&>*:last-child]:transition-transform [&>*:last-child]:duration-200 [&>*:last-child]:ease-out motion-reduce:[&>*:last-child]:transition-none ${
+									treeOpen ? '[&>*:last-child]:rotate-90' : ''
+								}`,
 								active: screen === 'space',
 								expanded: treeOpen,
 								onClick: () => {
@@ -225,20 +230,30 @@ export default function Folio({ screen: segments = [], basePath = '/blocks/folio
 									else go('space');
 								},
 							})}
-							{!collapsed && treeOpen && (
+							{!collapsed && (
 								// Figma's sidebar.subgroup: the space's pages, indented. Expanded sidebar only.
-								<div role='group' aria-label={`${space.project} pages`} className='flex flex-col gap-component-xs pl-component-lg'>
-									{treeDocs.map((d) =>
-										item(d.title, d.icon, {
-											active: d.opens && screen === 'page',
-											onClick: d.opens ? () => go('page') : undefined,
-										}),
-									)}
-									{treeDocs.length === 0 && (
-										<p className='m-0 px-component-md py-component-xs text-text-secondary' style={text['body-sm']}>
-											No pages match.
-										</p>
-									)}
+								// It slides open and closed (grid rows 0fr → 1fr); closed, it's inert so its pages can't take focus.
+								<div
+									className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out motion-reduce:transition-none ${
+										treeOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+									}`}
+									inert={!treeOpen}>
+									<div
+										role='group'
+										aria-label={`${space.project} pages`}
+										className='flex min-h-0 flex-col gap-component-xs overflow-hidden pl-component-lg'>
+										{treeDocs.map((d) =>
+											item(d.title, d.icon, {
+												active: d.opens && screen === 'page',
+												onClick: d.opens ? () => go('page') : undefined,
+											}),
+										)}
+										{treeDocs.length === 0 && (
+											<p className='m-0 px-component-md py-component-xs text-text-secondary' style={text['body-sm']}>
+												No pages match.
+											</p>
+										)}
+									</div>
 								</div>
 							)}
 							{item('Create', 'Plus')}
